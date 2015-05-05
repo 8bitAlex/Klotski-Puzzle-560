@@ -2,11 +2,10 @@ import java.util.Hashtable;
 import java.util.Map;
 
 /**
- * 
- */
-
-/**
- * @author hardline
+ * @author Alex Salerno
+ * @author John Stoddard
+ * @author Aaron McCarter
+ * @version 0.1
  *
  */
 

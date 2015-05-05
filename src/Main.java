@@ -1,7 +1,7 @@
 /**
  * @author Alex Salerno
- * @author 
- * @author
+ * @author John Stoddard
+ * @author Arron McCarter
  * @version 0.1
  *
  */
