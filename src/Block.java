@@ -17,4 +17,8 @@ public class Block {
 		this.width = w;
 		this.area = h * w;
 	}
+	
+	@Override public String toString(){
+		return "{ name: " + this.name + " Size:(" + this.width + "," + this.height + ") area: " + this.area + " }";
+	}
 }
