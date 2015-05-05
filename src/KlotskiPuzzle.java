@@ -10,22 +10,32 @@ import java.util.Map;
  *
  */
 
+class Coord {
+	int x;
+	int y;
+}
+
 public class KlotskiPuzzle {
-	static final String EMPTY = "0";	//represents an empty space in the grid
+	static final String EMPTY = "0";		//an empty space in the grid
+	static final String SOLVED_CHAR = "J";	//Block name that meets victory condition
 	static final int GRID_WIDTH = 5;
 	static final int GRID_HEIGHT = 4;
 	
 	String[][] grid = new String[GRID_WIDTH][GRID_HEIGHT];
 	Map<String, Block> blocks = new Hashtable<String, Block>(); 
 	
+	//CONSTRUCTOR
 	public KlotskiPuzzle(){
 		initBlocks();
 		initConfiguration();
 	}
 	
+	//Solves the Klotski Puzzle and outputs results
 	public void solve(){
 		debug();
-		//TODO solve puzzle
+		move(40,2,blocks.get("F"));
+		debug();
+		//TODO solve puzzle (Fancy Algorithm Here)
 		//TODO output solution
 	}
 	
@@ -35,15 +45,24 @@ public class KlotskiPuzzle {
 	 * @param b - Block being moved
 	 */
 	public Boolean move(int x, int y, Block b){
-		//TODO move piece
-		return isCollision(x,y,b);
+		if(!isValidMove(x,y,b)) return false;
+		else {
+			replaceBlock(b.name,EMPTY);
+			insertBlock(x,y,b);
+		}
+		return true;
 	}
 	
+	//Prints out useful debugging information
 	public void debug(){
-		for(int i=0; i<GRID_WIDTH;i++){
-			System.out.println(Arrays.toString(grid[i]));
+		for(int j=0; j<GRID_HEIGHT;j++){
+			for(int i=0; i<GRID_WIDTH;i++){
+				System.out.print(grid[i][j] + " ");
+			}
+			System.out.println();
 		}
-		System.out.println(blocks);
+		//System.out.println(blocks);
+		System.out.println();
 	}
 	
 	/*	=================================================
@@ -51,9 +70,9 @@ public class KlotskiPuzzle {
 	 *  =================================================
 	 */ 
 	
+	//Initializes blocks to default sizes
 	private void initBlocks(){
-		//Initializes block to default sizes
-		//new Block(Height,Weight,Name)
+		//new Block(Height,Width,Name)
 		blocks.put("A",new Block(1,2,"A"));
 		blocks.put("B",new Block(1,2,"B"));
 		blocks.put("C",new Block(1,2,"C"));
@@ -66,7 +85,9 @@ public class KlotskiPuzzle {
 		blocks.put("J",new Block(2,2,"J"));
 	}
 	
+	//Configures grid 
 	private void initConfiguration(){
+		//default configuration
 		grid[0][0] = "A";
 		grid[1][0] = "A";
 		grid[2][0] = "B";
@@ -89,7 +110,7 @@ public class KlotskiPuzzle {
 		grid[4][3] = "I";
 	}
 	
-	/*
+	/* If block b will collide with any block return true, else false
 	 * @param x - x-coord to move to
 	 * @param y - y-coord to move to
 	 * @param b - Block being moved
@@ -113,7 +134,53 @@ public class KlotskiPuzzle {
 		return true;
 	}
 	
+	private Boolean isValidMove(int x, int y, Block b){
+		//Coord c = getBlockCoord(b);
+		if(x >= GRID_WIDTH || y >= GRID_HEIGHT) return false;
+		if(isCollision(x,y,b)) return false;
+		//TODO make sure move is one from block origin
+		return true;
+	}
+	
 	private Boolean isSolved(){
+		if(grid[4][1].equals(SOLVED_CHAR) && grid[4][2].equals(SOLVED_CHAR)){
+			return true;
+		}
 		return false;
+	}
+	
+	private Coord getBlockCoord(Block b){
+		Coord c = new Coord();
+		for(int i=0;i<GRID_WIDTH;i++){
+			for(int j=0;j<GRID_HEIGHT;j++){
+				if(grid[i][j].equals(b.name)){
+					c.x = i;
+					c.y = j;
+					return c;
+				}
+			}
+		}
+		return null;
+	}
+	
+	/*
+	 * Replaces Block B1 with B2
+	 */
+	private void replaceBlock(String b1, String b2){
+		for(int i=0;i<GRID_WIDTH;i++){
+			for(int j=0;j<GRID_HEIGHT;j++){
+				if(grid[i][j].equals(b1)){
+					grid[i][j] = b2;
+				}
+			}
+		}
+	}
+	
+	private void insertBlock(int x, int y, Block b){
+		for(int i=x;i<x+b.width;i++){
+			for(int j=y;j<y+b.height;j++){
+				grid[i][j] = b.name;
+			}
+		}
 	}
 }
