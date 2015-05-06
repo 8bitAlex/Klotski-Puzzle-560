@@ -96,9 +96,10 @@ public class KlotskiPuzzle {
 	
 	public void codeToGrid(String code){
 		int s = 0;
+		int max = GRID_WIDTH * GRID_HEIGHT;
 		for(int i=0;i<GRID_WIDTH;i++){
 			for(int j=0;j<GRID_HEIGHT;j++){
-				if(s>code.length()) break;
+				if(s>code.length() || s>=max) break;
 				grid[i][j] = Character.toString(code.charAt(s));
 				s++;
 			}
