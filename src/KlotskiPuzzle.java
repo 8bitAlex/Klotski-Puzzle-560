@@ -66,6 +66,16 @@ public class KlotskiPuzzle {
 		System.out.println("   -----------");
 	}
 	
+	public String getGridCode(){
+		String code = "";
+		for(int i=0;i<GRID_WIDTH;i++){
+			for(int j=0;j<GRID_HEIGHT;j++){
+				code += grid[i][j];
+			}
+		}
+		return code;
+	}
+	
 	/*	=================================================
 	 * 	Private Functions
 	 *  =================================================
