@@ -12,8 +12,8 @@ public class Main {
 	 */
 	public static void main(String[] args) {
 		KlotskiPuzzle puzzle = new KlotskiPuzzle();
-		KlotskiSolver solver = new KlotskiSolver(puzzle);
-		//solver.solve();
+		KlotskiSolver solver = new KlotskiSolver(new KlotskiPuzzle());
+		solver.solve(true);
 		
 		//example, delete or comment out if you want
 		puzzle.move(4, 1, "F");
