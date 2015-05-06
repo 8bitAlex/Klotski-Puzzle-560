@@ -1,5 +1,6 @@
 import java.util.Hashtable;
 import java.util.Map;
+import java.util.Stack;
 
 /**
  * @author Alex Salerno
@@ -10,6 +11,13 @@ import java.util.Map;
 class Coord {
 	int x;
 	int y;
+	Block block;
+	
+	public Coord(int x, int y, Block block){
+		this.x = x;
+		this.y = y;
+		this.block = block;
+	}
 }
 
 public class KlotskiPuzzle {
@@ -20,11 +28,14 @@ public class KlotskiPuzzle {
 	
 	String[][] grid = new String[GRID_WIDTH][GRID_HEIGHT];
 	Map<String, Block> blocks = new Hashtable<String, Block>();
+	Stack<String> grids = new Stack<String>();
+	Stack<Coord> moves = new Stack<Coord>();
 	
 	//CONSTRUCTOR
 	public KlotskiPuzzle(){
 		initBlocks();
 		initConfiguration();
+		grids.push(getGridCode());
 		printPuzzle();
 	}
 	
@@ -39,6 +50,8 @@ public class KlotskiPuzzle {
 		else {
 			replaceBlock(b.name,EMPTY);
 			insertBlock(x,y,b);
+			grids.push(getGridCode());
+			moves.push(new Coord(x,y,b));
 		}
 		return true;
 	}
@@ -79,6 +92,29 @@ public class KlotskiPuzzle {
 			}
 		}
 		return code;
+	}
+	
+	public Stack<Coord> getMoves(){
+		return moves;
+	}
+	
+	public Boolean undo(){
+		if(grids.size() < 2) return false;
+		grids.pop();
+		moves.pop();
+		codeToGrid(grids.peek());
+		return true;
+	}
+	
+	public void codeToGrid(String code){
+		int s = 0;
+		for(int i=0;i<GRID_WIDTH;i++){
+			for(int j=0;j<GRID_HEIGHT;j++){
+				if(s>code.length()) break;
+				grid[i][j] = Character.toString(code.charAt(s));
+				s++;
+			}
+		}
 	}
 	
 	/*	=================================================
@@ -151,7 +187,7 @@ public class KlotskiPuzzle {
 	}
 	
 	private Coord getBlockCoord(Block b){
-		Coord c = new Coord();
+		Coord c = new Coord(0,0,null);
 		for(int i=0;i<GRID_WIDTH;i++){
 			for(int j=0;j<GRID_HEIGHT;j++){
 				if(grid[i][j].equals(b.name)){
