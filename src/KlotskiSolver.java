@@ -15,9 +15,8 @@ public class KlotskiSolver {
 	KlotskiPuzzle puzzle;
 	
 	public KlotskiSolver(KlotskiPuzzle puzzle){
-		this.puzzle = puzzle;
-		pastGrid.add(puzzle.getGridCode());
-		this.puzzle.move(4,1,"F");
+			pastGrid.add(puzzle.getGridCode());
+			this.puzzle = puzzle;
 	}
 	
 	public void solve(){
