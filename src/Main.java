@@ -11,9 +11,12 @@ public class Main {
 	 * @param args
 	 */
 	public static void main(String[] args) {
+		//KlotskiPuzzle puzzle = new KlotskiPuzzle();
+		//KlotskiSolver solver = new KlotskiSolver(new KlotskiPuzzle());
+		//solver.solve(true);
+		
 		KlotskiPuzzle puzzle = new KlotskiPuzzle();
-		KlotskiSolver solver = new KlotskiSolver(new KlotskiPuzzle());
-		solver.solve(true);
+		
 		
 		//example, delete or comment out if you want
 		puzzle.move(4, 1, "F");
@@ -24,6 +27,8 @@ public class Main {
 		puzzle.move(4, 2, "I");
 		puzzle.move(4, 3, "D");	//illegal move
 		puzzle.move(3, 3, "D");
+		puzzle.undo();
+		puzzle.undo();
 		puzzle.printPuzzle();
 		System.out.println(puzzle.isSolved());
 	}
