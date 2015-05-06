@@ -13,6 +13,7 @@ public class KlotskiPuzzle {
 	static final String SOLVED_CHAR = "J";	//Block name that meets victory condition
 	static final int GRID_WIDTH = 5;
 	static final int GRID_HEIGHT = 4;
+	static final String DEFAULT_CONFIG = "AJJCAJJCBEEDBGHDF00I"; //AABBF /JJEG0/ JJEH0/ CCDDI
 	
 	String[][] grid = new String[GRID_WIDTH][GRID_HEIGHT];
 	Map<String, Block> blocks = new Hashtable<String, Block>();
@@ -21,10 +22,17 @@ public class KlotskiPuzzle {
 	
 	//CONSTRUCTOR
 	public KlotskiPuzzle(){
+		init(DEFAULT_CONFIG);
+	}
+	
+	public KlotskiPuzzle(String code){
+		init(code);
+	}
+	
+	private void init(String code){
 		initBlocks();
-		initConfiguration();
+		codeToGrid(code);
 		grids.push(getGridCode());
-		printPuzzle();
 	}
 	
 	/*
@@ -126,21 +134,21 @@ public class KlotskiPuzzle {
 		blocks.put("J",new Block(2,2,"J"));
 	}
 	
-	//Configures grid 
-	private void initConfiguration(){
-		//default configuration
-		grid[0][0] = "A";	grid[0][1] = "J";
-		grid[1][0] = "A";	grid[1][1] = "J";
-		grid[2][0] = "B";	grid[2][1] = "E";
-		grid[3][0] = "B";	grid[3][1] = "G";
-		grid[4][0] = "F";	grid[4][1] = EMPTY;
-		
-		grid[0][2] = "J";	grid[0][3] = "C";
-		grid[1][2] = "J";	grid[1][3] = "C";
-		grid[2][2] = "E";	grid[2][3] = "D";
-		grid[3][2] = "H";	grid[3][3] = "D";
-		grid[4][2] = EMPTY;	grid[4][3] = "I";
-	}
+//	//Configures grid 
+//	private void initConfiguration(){
+//		//default configuration
+//		grid[0][0] = "A";	grid[0][1] = "J";
+//		grid[1][0] = "A";	grid[1][1] = "J";
+//		grid[2][0] = "B";	grid[2][1] = "E";
+//		grid[3][0] = "B";	grid[3][1] = "G";
+//		grid[4][0] = "F";	grid[4][1] = EMPTY;
+//		
+//		grid[0][2] = "J";	grid[0][3] = "C";
+//		grid[1][2] = "J";	grid[1][3] = "C";
+//		grid[2][2] = "E";	grid[2][3] = "D";
+//		grid[3][2] = "H";	grid[3][3] = "D";
+//		grid[4][2] = EMPTY;	grid[4][3] = "I";
+//	}
 	
 	/* If block b will collide with any block return true, else false
 	 * @param x - x-coord to move to
