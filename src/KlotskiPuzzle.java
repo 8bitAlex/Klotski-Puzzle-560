@@ -1,11 +1,8 @@
-import java.util.Arrays;
 import java.util.Hashtable;
 import java.util.Map;
 
 /**
  * @author Alex Salerno
- * @author John Stoddard
- * @author Arron McCarter
  * @version 0.1
  *
  */
@@ -37,7 +34,7 @@ public class KlotskiPuzzle {
 	 * @param b - Block being moved
 	 */
 	public Boolean move(int x, int y, String block){
-		Block b = blocks.get("block");
+		Block b = blocks.get(block);
 		if(!isValidMove(x,y,b)) return false;
 		else {
 			replaceBlock(b.name,EMPTY);
@@ -53,7 +50,7 @@ public class KlotskiPuzzle {
 		return false;
 	}
 	
-	//Prints out useful debugging information
+	//Prints out the puzzles current state
 	public void printPuzzle(){
 		System.out.println("    0 1 2 3 4 ");
 		System.out.println("   -----------");
@@ -139,10 +136,10 @@ public class KlotskiPuzzle {
 	
 	private Boolean isValidMove(int x, int y, Block b){
 		Coord c = getBlockCoord(b);
-		if(x >= GRID_WIDTH || y >= GRID_HEIGHT) return false;
+		if(x+(b.width-1) >= GRID_WIDTH || y+(b.height-1) >= GRID_HEIGHT) return false;
 		if(isCollision(x,y,b)) return false;
-		//TODO make sure move is one from block origin
-		return true;
+		if(x != c.x && y != c.y) return false;
+		return true; 
 	}
 	
 	private Coord getBlockCoord(Block b){
