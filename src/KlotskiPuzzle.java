@@ -17,7 +17,7 @@ public class KlotskiPuzzle {
 	String[][] grid = new String[GRID_WIDTH][GRID_HEIGHT];
 	Map<String, Block> blocks = new Hashtable<String, Block>();
 	Stack<String> grids = new Stack<String>();
-	Stack<Coord> moves = new Stack<Coord>();
+	Stack<Move> moves = new Stack<Move>();
 	
 	//CONSTRUCTOR
 	public KlotskiPuzzle(){
@@ -39,7 +39,7 @@ public class KlotskiPuzzle {
 			replaceBlock(b.name,EMPTY);
 			insertBlock(x,y,b);
 			grids.push(getGridCode());
-			moves.push(new Coord(x,y,b));
+			moves.push(new Move(x,y,b));
 		}
 		return true;
 	}
@@ -82,7 +82,7 @@ public class KlotskiPuzzle {
 		return code;
 	}
 	
-	public Stack<Coord> getMoves(){
+	public Stack<Move> getMoves(){
 		return moves;
 	}
 	
@@ -167,7 +167,7 @@ public class KlotskiPuzzle {
 	}
 	
 	private Boolean isValidMove(int x, int y, Block b){
-		Coord c = getBlockCoord(b);
+		Move c = getBlockMove(b);
 		if(x+(b.width-1) >= GRID_WIDTH || y+(b.height-1) >= GRID_HEIGHT) return false;
 		if(isCollision(x,y,b)) return false;
 		if(x != c.x && y != c.y) return false;
@@ -175,8 +175,8 @@ public class KlotskiPuzzle {
 		return true; 
 	}
 	
-	private Coord getBlockCoord(Block b){
-		Coord c = new Coord(0,0,null);
+	private Move getBlockMove(Block b){
+		Move c = new Move(0,0,null);
 		for(int i=0;i<GRID_WIDTH;i++){
 			for(int j=0;j<GRID_HEIGHT;j++){
 				if(grid[i][j].equals(b.name)){

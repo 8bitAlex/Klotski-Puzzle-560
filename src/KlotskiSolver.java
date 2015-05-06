@@ -30,5 +30,13 @@ public class KlotskiSolver {
 	private void printSolution(){
 		
 	}
+	
+	private void findValidPath(){
+		
+	}
+	
+	private Move[] findAllMoves(KlotskiPuzzle p){
+		return null;
+	}
 
 }
