@@ -1,5 +1,7 @@
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Queue;
 import java.util.Set;
 
@@ -57,10 +59,21 @@ public class KlotskiSolver {
 	}
 	
 	private String[] findAllMoves(String gridCode){
-		KlotskiPuzzle p = new KlotskiPuzzle(gridCode);
+		String[] blocks = KlotskiPuzzle.BLOCK_NAMES;
+		List<String> results = new ArrayList<String>();
+		for(String s: blocks){
+			for(int i=0; i<KlotskiPuzzle.GRID_WIDTH;i++){
+				for(int j=0;i<KlotskiPuzzle.GRID_HEIGHT;j++){
+					KlotskiPuzzle p = new KlotskiPuzzle(gridCode);
+					if(p.move(i, j, s)){
+						results.add(p.getGridCode());
+					}
+				}
+			}
+		}
 		
 		//return next move grid code
-		return null;
+		return (String[]) results.toArray();
 	}
 	
 	private Boolean isSolved(String gridCode){
