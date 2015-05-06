@@ -89,26 +89,17 @@ public class KlotskiPuzzle {
 	//Configures grid 
 	private void initConfiguration(){
 		//default configuration
-		grid[0][0] = "A";
-		grid[1][0] = "A";
-		grid[2][0] = "B";
-		grid[3][0] = "B";
-		grid[4][0] = "F";
-		grid[0][1] = "J";
-		grid[1][1] = "J";
-		grid[2][1] = "E";
-		grid[3][1] = "G";
-		grid[4][1] = EMPTY;
-		grid[0][2] = "J";
-		grid[1][2] = "J";
-		grid[2][2] = "E";
-		grid[3][2] = "H";
-		grid[4][2] = EMPTY;
-		grid[0][3] = "C";
-		grid[1][3] = "C";
-		grid[2][3] = "D";
-		grid[3][3] = "D";
-		grid[4][3] = "I";
+		grid[0][0] = "A";	grid[0][1] = "J";
+		grid[1][0] = "A";	grid[1][1] = "J";
+		grid[2][0] = "B";	grid[2][1] = "E";
+		grid[3][0] = "B";	grid[3][1] = "G";
+		grid[4][0] = "F";	grid[4][1] = EMPTY;
+		
+		grid[0][2] = "J";	grid[0][3] = "C";
+		grid[1][2] = "J";	grid[1][3] = "C";
+		grid[2][2] = "E";	grid[2][3] = "D";
+		grid[3][2] = "H";	grid[3][3] = "D";
+		grid[4][2] = EMPTY;	grid[4][3] = "I";
 	}
 	
 	/* If block b will collide with any block return true, else false
