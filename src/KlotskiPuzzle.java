@@ -8,18 +8,6 @@ import java.util.Stack;
  *
  */
 
-class Coord {
-	int x;
-	int y;
-	Block block;
-	
-	public Coord(int x, int y, Block block){
-		this.x = x;
-		this.y = y;
-		this.block = block;
-	}
-}
-
 public class KlotskiPuzzle {
 	static final String EMPTY = "0";		//an empty space in the grid
 	static final String SOLVED_CHAR = "J";	//Block name that meets victory condition
