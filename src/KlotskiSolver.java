@@ -7,5 +7,13 @@
  */
 
 public class KlotskiSolver {
+	
+	public KlotskiSolver(KlotskiPuzzle puzzle){
+		
+	}
+	
+	public void solve(){
+		
+	}
 
 }
