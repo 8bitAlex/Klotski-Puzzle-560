@@ -28,15 +28,7 @@ public class KlotskiPuzzle {
 	public KlotskiPuzzle(){
 		initBlocks();
 		initConfiguration();
-	}
-	
-	//Solves the Klotski Puzzle and outputs results
-	public void solve(){
-		debug();
-		move(40,2,blocks.get("F"));
-		debug();
-		//TODO solve puzzle (Fancy Algorithm Here)
-		//TODO output solution
+		printPuzzle();
 	}
 	
 	/*
@@ -44,7 +36,8 @@ public class KlotskiPuzzle {
 	 * @param y - y-coord to move to
 	 * @param b - Block being moved
 	 */
-	public Boolean move(int x, int y, Block b){
+	public Boolean move(int x, int y, String block){
+		Block b = blocks.get("block");
 		if(!isValidMove(x,y,b)) return false;
 		else {
 			replaceBlock(b.name,EMPTY);
@@ -53,16 +46,26 @@ public class KlotskiPuzzle {
 		return true;
 	}
 	
+	public Boolean isSolved(){
+		if(grid[4][1].equals(SOLVED_CHAR) && grid[4][2].equals(SOLVED_CHAR)){
+			return true;
+		}
+		return false;
+	}
+	
 	//Prints out useful debugging information
-	public void debug(){
+	public void printPuzzle(){
+		System.out.println("    0 1 2 3 4 ");
+		System.out.println("   -----------");
 		for(int j=0; j<GRID_HEIGHT;j++){
+			System.out.print(j + " | ");
 			for(int i=0; i<GRID_WIDTH;i++){
 				System.out.print(grid[i][j] + " ");
 			}
+			System.out.print("|");
 			System.out.println();
 		}
-		//System.out.println(blocks);
-		System.out.println();
+		System.out.println("   -----------");
 	}
 	
 	/*	=================================================
@@ -135,18 +138,11 @@ public class KlotskiPuzzle {
 	}
 	
 	private Boolean isValidMove(int x, int y, Block b){
-		//Coord c = getBlockCoord(b);
+		Coord c = getBlockCoord(b);
 		if(x >= GRID_WIDTH || y >= GRID_HEIGHT) return false;
 		if(isCollision(x,y,b)) return false;
 		//TODO make sure move is one from block origin
 		return true;
-	}
-	
-	private Boolean isSolved(){
-		if(grid[4][1].equals(SOLVED_CHAR) && grid[4][2].equals(SOLVED_CHAR)){
-			return true;
-		}
-		return false;
 	}
 	
 	private Coord getBlockCoord(Block b){
