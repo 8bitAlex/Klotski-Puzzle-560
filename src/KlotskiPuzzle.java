@@ -59,7 +59,8 @@ public class KlotskiPuzzle {
 			for(int i=0; i<GRID_WIDTH;i++){
 				System.out.print(grid[i][j] + " ");
 			}
-			System.out.print("|");
+			if(j==1 || j==2) System.out.print("+");
+			else System.out.print("|");
 			System.out.println();
 		}
 		System.out.println("   -----------");
