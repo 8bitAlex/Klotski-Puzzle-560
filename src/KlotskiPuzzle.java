@@ -19,7 +19,7 @@ public class KlotskiPuzzle {
 	static final int GRID_HEIGHT = 4;
 	
 	String[][] grid = new String[GRID_WIDTH][GRID_HEIGHT];
-	Map<String, Block> blocks = new Hashtable<String, Block>(); 
+	Map<String, Block> blocks = new Hashtable<String, Block>();
 	
 	//CONSTRUCTOR
 	public KlotskiPuzzle(){
@@ -66,6 +66,11 @@ public class KlotskiPuzzle {
 		System.out.println("   -----------");
 	}
 	
+	public String getGrid(int x, int y){
+		return grid[x][y];
+	}
+	
+	//TODO make more efficient, use Huffman encoding
 	public String getGridCode(){
 		String code = "";
 		for(int i=0;i<GRID_WIDTH;i++){
@@ -141,6 +146,7 @@ public class KlotskiPuzzle {
 		if(x+(b.width-1) >= GRID_WIDTH || y+(b.height-1) >= GRID_HEIGHT) return false;
 		if(isCollision(x,y,b)) return false;
 		if(x != c.x && y != c.y) return false;
+		if(Math.abs(x-c.x) > 1 || Math.abs(y-c.y) > 1) return false;
 		return true; 
 	}
 	
