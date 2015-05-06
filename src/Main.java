@@ -11,14 +11,14 @@ public class Main {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		//KlotskiPuzzle puzzle = new KlotskiPuzzle();
-		//KlotskiSolver solver = new KlotskiSolver(new KlotskiPuzzle());
-		//solver.solve(true);
+//		KlotskiSolver solver = new KlotskiSolver(new KlotskiPuzzle());
+//		solver.solve(true);
 		
 		KlotskiPuzzle puzzle = new KlotskiPuzzle();
 		
 		
 		//example, delete or comment out if you want
+		puzzle.printPuzzle();
 		puzzle.move(4, 1, "F");
 		puzzle.move(3, 0, "B");
 		puzzle.move(2, 0, "E");
@@ -31,5 +31,6 @@ public class Main {
 		puzzle.undo();
 		puzzle.printPuzzle();
 		System.out.println(puzzle.isSolved());
+		System.out.println(puzzle.getGridCode());
 	}
 }
