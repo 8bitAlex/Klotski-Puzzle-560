@@ -4,6 +4,7 @@ import java.util.Stack;
 
 /**
  * @author Alex Salerno
+ * @author Chris Parsoneault
  * @version 0.1
  *
  */
@@ -14,6 +15,7 @@ public class KlotskiPuzzle {
 	static final int GRID_WIDTH = 5;
 	static final int GRID_HEIGHT = 4;
 	static final String DEFAULT_CONFIG = "AJJCAJJCBEEDBGHDF00I"; //AABBF /JJEG0/ JJEH0/ CCDDI
+	static final String[] BLOCK_NAMES = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J"};
 	
 	String[][] grid = new String[GRID_WIDTH][GRID_HEIGHT];
 	Map<String, Block> blocks = new Hashtable<String, Block>();
