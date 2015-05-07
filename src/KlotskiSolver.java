@@ -18,7 +18,7 @@ public class KlotskiSolver {
 	
 	Set<String> pastGrid = new HashSet<String>();
 	KlotskiPuzzle puzzle;
-	int counter = 0;
+	int moveCount = 0;
 	
 	public KlotskiSolver(KlotskiPuzzle puzzle){
 			pastGrid.add(puzzle.getGridCode());
@@ -48,25 +48,19 @@ public class KlotskiSolver {
 		
 		while(!grids.isEmpty()){
 			String current = grids.remove();
-			if(isSolved(current)) break;
+			if(isSolved(current)){
+				if(verbose) System.out.println("Solution found in " + moveCount + " moves!");
+				break;
+			}
 			String[] nextGrid = findAllMoves(current);
-			System.out.println("Before for(String g: nextGrid)");
 			for(String g : nextGrid){
 				if(!pastGrid.contains(g)){
-					if(verbose) {
-						System.out.println("Adding grid " + g + " to queue.");
-						KlotskiPuzzle z = new KlotskiPuzzle(g);
-						z.printPuzzle();
-					}
+					if(verbose) System.out.println("Adding grid " + g + " to queue. " + moveCount);
 					grids.add(g);
 					pastGrid.add(g);
-				} else {
-					;
 				}
 			}
-			counter++;
-			System.out.println(counter);
-			System.out.println("After for(String g: nextGrid)");
+			moveCount++;
 		}
 	}
 	
