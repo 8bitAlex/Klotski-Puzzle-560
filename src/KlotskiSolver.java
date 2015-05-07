@@ -41,6 +41,7 @@ public class KlotskiSolver {
 	
 	//Root is the grids gridCode
 	private void findValidPath(String rootCode, Boolean verbose){
+		if(verbose) System.out.println("Finding optimal solution");
 		Queue<String> grids = new LinkedList<String>();
 		grids.add(rootCode);
 		pastGrid.add(rootCode);
@@ -70,8 +71,6 @@ public class KlotskiSolver {
 	}
 	
 	private String[] findAllMoves(String gridCode){
-<<<<<<< HEAD
-=======
 		String[] blocks = KlotskiPuzzle.BLOCK_NAMES;
 		List<String> results = new ArrayList<String>();
 		for(String s: blocks){
@@ -84,30 +83,10 @@ public class KlotskiSolver {
 				}
 			}
 		}
->>>>>>> 08d2bdffac43868106224632e177df30b66e92a3
-		
-		String[] blocks = KlotskiPuzzle.BLOCK_NAMES;
-		List<String> results = new ArrayList<String>();
-		for (String s: blocks) {
-			for (int i = 0; i < KlotskiPuzzle.GRID_WIDTH; i++){
-				for (int j = 0; j <  KlotskiPuzzle.GRID_HEIGHT; j ++){
-					KlotskiPuzzle p = new KlotskiPuzzle(gridCode);
-					if(p.move(i, j, s)){
-						results.add(p.getGridCode());
-						//System.out.println("Valid move: i " + i +", j " + j + ", s " + s);
-					}
-				}
-			}
-		}
 		System.out.println("Exiting findAllMoves");
 		String[] resultsArray = new String[ results.size() ];
 		//return next move grid code
-<<<<<<< HEAD
 		return results.toArray(resultsArray);
-		//return blocks;
-=======
-		return (String[]) results.toArray();
->>>>>>> 08d2bdffac43868106224632e177df30b66e92a3
 	}
 	
 	private Boolean isSolved(String gridCode){
