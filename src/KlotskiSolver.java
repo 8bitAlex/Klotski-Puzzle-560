@@ -1,4 +1,6 @@
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -23,7 +25,6 @@ public class KlotskiSolver {
 	public KlotskiSolver(KlotskiPuzzle puzzle){
 			pastGrid.add(puzzle.getGridCode());
 			this.puzzle = puzzle;
-			System.out.println(puzzle.getGridCode());
 	}
 	
 	public void solve(){
@@ -31,8 +32,13 @@ public class KlotskiSolver {
 	}
 	
 	public void solve(Boolean verbose){
+		Calendar cal = Calendar.getInstance();
+    	long start = cal.getTimeInMillis();
 		if(verbose) System.out.println("Solving puzzle...");
 		findValidPath(puzzle.getGridCode(),verbose);
+		long end = cal.getTimeInMillis();
+		long duration = (end - start)/1000;
+		System.out.println("Duration: " + duration + "s");
 	}
 	
 	private void printSolution(){
@@ -64,7 +70,8 @@ public class KlotskiSolver {
 			}
 			moveCount++;
 			//System.out.println(moveCount);
-			if((moveCount % 1000) == 0) {
+			//if(current.equals("AJJCAJJCBEEDBGHD0F0I")) System.out.println("FUCKED UP");
+			if((moveCount % 10000) == 0) {
 				clearConsole();
 				KlotskiPuzzle p = new KlotskiPuzzle(current);
 				p.printPuzzle();
