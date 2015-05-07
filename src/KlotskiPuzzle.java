@@ -151,8 +151,16 @@ public class KlotskiPuzzle {
 			}
 			//check for height collision
 			for(int i=1;i<b.height;i++){
-				if(!grid[x][y+1].equals(EMPTY) && !grid[x][y+1].equals(b.name)){
+				if(!grid[x][y+i].equals(EMPTY) && !grid[x][y+i].equals(b.name)){
 					return true;
+				}
+			}
+			//check for inner
+			for(int i=1;i<b.width;i++){
+				for(int j=1;j<b.height;j++){
+					if(!grid[x+i][y+j].equals(EMPTY) && !grid[x+i][y+j].equals(b.name)){
+						return true;
+					}
 				}
 			}
 			return false;

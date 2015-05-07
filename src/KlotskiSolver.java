@@ -52,24 +52,33 @@ public class KlotskiSolver {
 				if(verbose) System.out.println("Solution found in " + moveCount + " moves!");
 				break;
 			}
-			String[] nextGrid = findAllMoves(current);
+			String[] nextGrid = findAllMoves(current, verbose);
 			for(String g : nextGrid){
 				if(!pastGrid.contains(g)){
 					if(verbose) System.out.println("Adding grid " + g + " to queue. " + moveCount);
 					grids.add(g);
 					pastGrid.add(g);
+				} else if(verbose){
+					System.out.println(g + " already exists");
 				}
 			}
 			moveCount++;
+			//System.out.println(moveCount);
+			if((moveCount % 1000) == 0) {
+				clearConsole();
+				KlotskiPuzzle p = new KlotskiPuzzle(current);
+				p.printPuzzle();
+			};
 		}
 	}
 	
-	private String[] findAllMoves(String gridCode){
+	private String[] findAllMoves(String gridCode,Boolean verbose){
+		if(verbose) System.out.println("Finding all moves for " + gridCode);
 		String[] blocks = KlotskiPuzzle.BLOCK_NAMES;
 		List<String> results = new ArrayList<String>();
 		for(String s: blocks){
 			for(int i=0; i<KlotskiPuzzle.GRID_WIDTH;i++){
-				for(int j=0;i<KlotskiPuzzle.GRID_HEIGHT;j++){
+				for(int j=0;j<KlotskiPuzzle.GRID_HEIGHT;j++){
 					KlotskiPuzzle p = new KlotskiPuzzle(gridCode);
 					if(p.move(i, j, s)){
 						results.add(p.getGridCode());
@@ -77,15 +86,20 @@ public class KlotskiSolver {
 				}
 			}
 		}
-		System.out.println("Exiting findAllMoves");
+		
 		String[] resultsArray = new String[ results.size() ];
 		//return next move grid code
+		if(results == null) System.out.println("TEST2");
 		return results.toArray(resultsArray);
 	}
 	
 	private Boolean isSolved(String gridCode){
 		KlotskiPuzzle p = new KlotskiPuzzle(gridCode);
 		return p.isSolved();
+	}
+	
+	private void clearConsole(){
+		for(int i=0; i<1000; i++) System.out.println("\b") ;
 	}
 
 }
