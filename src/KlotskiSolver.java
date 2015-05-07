@@ -18,9 +18,7 @@ import java.util.Set;
 
 public class KlotskiSolver {
 	
-	Set<String> pastGrid = new HashSet<String>();
 	KlotskiPuzzle puzzle;
-	int moveCount = 0;
 	
 	public KlotskiSolver(KlotskiPuzzle puzzle){
 			pastGrid.add(puzzle.getGridCode());
@@ -48,7 +46,11 @@ public class KlotskiSolver {
 	//Root is the grids gridCode
 	private void findValidPath(String rootCode, Boolean verbose){
 		if(verbose) System.out.println("Finding optimal solution");
+		
+		Set<String> pastGrid = new HashSet<String>();
 		Queue<String> grids = new LinkedList<String>();
+		int moveCount = 0;
+		
 		grids.add(rootCode);
 		pastGrid.add(rootCode);
 		
@@ -95,8 +97,6 @@ public class KlotskiSolver {
 		}
 		
 		String[] resultsArray = new String[ results.size() ];
-		//return next move grid code
-		if(results == null) System.out.println("TEST2");
 		return results.toArray(resultsArray);
 	}
 	
