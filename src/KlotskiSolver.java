@@ -70,6 +70,21 @@ public class KlotskiSolver {
 	}
 	
 	private String[] findAllMoves(String gridCode){
+<<<<<<< HEAD
+=======
+		String[] blocks = KlotskiPuzzle.BLOCK_NAMES;
+		List<String> results = new ArrayList<String>();
+		for(String s: blocks){
+			for(int i=0; i<KlotskiPuzzle.GRID_WIDTH;i++){
+				for(int j=0;i<KlotskiPuzzle.GRID_HEIGHT;j++){
+					KlotskiPuzzle p = new KlotskiPuzzle(gridCode);
+					if(p.move(i, j, s)){
+						results.add(p.getGridCode());
+					}
+				}
+			}
+		}
+>>>>>>> 08d2bdffac43868106224632e177df30b66e92a3
 		
 		String[] blocks = KlotskiPuzzle.BLOCK_NAMES;
 		List<String> results = new ArrayList<String>();
@@ -87,8 +102,12 @@ public class KlotskiSolver {
 		System.out.println("Exiting findAllMoves");
 		String[] resultsArray = new String[ results.size() ];
 		//return next move grid code
+<<<<<<< HEAD
 		return results.toArray(resultsArray);
 		//return blocks;
+=======
+		return (String[]) results.toArray();
+>>>>>>> 08d2bdffac43868106224632e177df30b66e92a3
 	}
 	
 	private Boolean isSolved(String gridCode){
