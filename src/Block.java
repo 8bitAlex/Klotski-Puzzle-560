@@ -8,6 +8,11 @@ public class Block {
 	int area;
 	int height;
 	int width;
+	Type type;
+	
+	public enum Type{
+		SINGLE,DOUBLE_WIDE,DOUBLE_TALL,QUAD
+	}
 	
 	public Block(int h, int w, String n){
 		this.name = n;
