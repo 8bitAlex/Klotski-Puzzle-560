@@ -14,12 +14,18 @@ public class KlotskiPuzzle {
 	static final String SOLVED_CHAR = "J";	//Block name that meets victory condition
 	static final int GRID_WIDTH = 5;
 	static final int GRID_HEIGHT = 4;
-	static final String DEFAULT_CONFIG = "AJJCAJJCBEEDBGHDF00I"; //AABBF /JJEG0/ JJEH0/ CCDDI
 	static final String[] BLOCK_NAMES = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J"};
+	
+	static final String DEFAULT_CONFIG = "AJJCAJJCBEEDBGHDF00I";	//116 moves to win
+	//static final String DEFAULT_CONFIG = "HEEGA0C0AFCIBDJJBDJJ";	//7 moves to win
+	//static final String DEFAULT_CONFIG = "0B0CABDCAHDFJJEEJJIG";	//9 moves to win
 	
 	String[][] grid = new String[GRID_WIDTH][GRID_HEIGHT];
 	Map<String, Block> blocks = new Hashtable<String, Block>();
-	Stack<String> grids = new Stack<String>();
+	
+	//Track grid configurations of each move
+	Stack<String> grids = new Stack<String>();						
+	//Track each move up until current configuration
 	Stack<Move> moves = new Stack<Move>();
 	
 	//CONSTRUCTOR
@@ -43,6 +49,7 @@ public class KlotskiPuzzle {
 	 * @param b - Block being moved
 	 */
 	public Boolean move(int x, int y, String block){
+		if(block.isEmpty() || !blocks.containsKey(block)) return false;
 		Block b = blocks.get(block);
 		if(!isValidMove(x,y,b)) return false;
 		else {
@@ -78,6 +85,8 @@ public class KlotskiPuzzle {
 	}
 	
 	public String getGrid(int x, int y){
+		if(x < 0 || x >= GRID_WIDTH) return "";
+		if(y < 0 || y >= GRID_HEIGHT) return "";
 		return grid[x][y];
 	}
 	
@@ -116,6 +125,13 @@ public class KlotskiPuzzle {
 		}
 	}
 	
+	public void printMoves(){
+		while(!moves.isEmpty()){
+			Move m = moves.pop();
+			System.out.println("Move " + m.block.name + " to (" + m.x + "," + m.y + ")");
+		}
+	}
+	
 	/*	=================================================
 	 * 	Private Functions
 	 *  =================================================
@@ -124,16 +140,16 @@ public class KlotskiPuzzle {
 	//Initializes blocks to default sizes
 	private void initBlocks(){
 		//new Block(Height,Width,Name)
-		blocks.put("A",new Block(1,2,"A"));
-		blocks.put("B",new Block(1,2,"B"));
-		blocks.put("C",new Block(1,2,"C"));
-		blocks.put("D",new Block(1,2,"D"));
-		blocks.put("E",new Block(2,1,"E"));
-		blocks.put("F",new Block(1,1,"F"));
-		blocks.put("G",new Block(1,1,"G"));
-		blocks.put("H",new Block(1,1,"H"));
-		blocks.put("I",new Block(1,1,"I"));
-		blocks.put("J",new Block(2,2,"J"));
+		blocks.put("A",new Block(1,1,2,"A"));
+		blocks.put("B",new Block(2,1,2,"B"));
+		blocks.put("C",new Block(3,1,2,"C"));
+		blocks.put("D",new Block(4,1,2,"D"));
+		blocks.put("E",new Block(5,2,1,"E"));
+		blocks.put("F",new Block(6,1,1,"F"));
+		blocks.put("G",new Block(7,1,1,"G"));
+		blocks.put("H",new Block(8,1,1,"H"));
+		blocks.put("I",new Block(9,1,1,"I"));
+		blocks.put("J",new Block(10,2,2,"J"));
 	}
 	
 	/* If block b will collide with any block return true, else false
@@ -169,7 +185,7 @@ public class KlotskiPuzzle {
 	}
 	
 	private Boolean isValidMove(int x, int y, Block b){
-		Move c = getBlockMove(b);
+		Move c = getBlockPos(b);
 		if(x+(b.width-1) >= GRID_WIDTH || y+(b.height-1) >= GRID_HEIGHT) return false;
 		if(isCollision(x,y,b)) return false;
 		if(x != c.x && y != c.y) return false;
@@ -177,14 +193,17 @@ public class KlotskiPuzzle {
 		return true; 
 	}
 	
-	private Move getBlockMove(Block b){
-		Move c = new Move(0,0,null);
-		for(int i=0;i<GRID_WIDTH;i++){
-			for(int j=0;j<GRID_HEIGHT;j++){
-				if(grid[i][j].equals(b.name)){
-					c.x = i;
-					c.y = j;
-					return c;
+	//returns move object with current position of block b
+	private Move getBlockPos(Block b){
+		if(blocks.containsKey(b.name)){
+			Move c = new Move(0,0,b);
+			for(int i=0;i<GRID_WIDTH;i++){
+				for(int j=0;j<GRID_HEIGHT;j++){
+					if(grid[i][j].equals(b.name)){
+						c.x = i;
+						c.y = j;
+						return c;
+					}
 				}
 			}
 		}
