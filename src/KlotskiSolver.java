@@ -67,6 +67,10 @@ public class KlotskiSolver {
 		
 		while(!grids.isEmpty()){
 			String current = grids.remove();
+			
+//			KlotskiPuzzle z = new KlotskiPuzzle(current);
+//			z.printPuzzle();
+			
 			if(isSolved(current)){
 				if(verbose) System.out.println("Solution found in " + moveCount + " tries!");
 				puzzle = new KlotskiPuzzle(current);
@@ -75,11 +79,17 @@ public class KlotskiSolver {
 			}
 			String[] nextGrid = findAllMoves(current, verbose);
 			for(String g : nextGrid){
+				if(pastGrid.contains(g)) continue;
 				if(verbose) System.out.println(moveCount + "\tAdding grid " + g + " to queue. ");
 				grids.add(g);
 				pastGrid.add(g);
 			}
 			moveCount++;
+//			if(moveCount % 10000 == 0){
+//				KlotskiPuzzle z = new KlotskiPuzzle(current);
+//				z.printPuzzle();
+//			}
+			
 		}
 	}
 	
@@ -117,6 +127,7 @@ public class KlotskiSolver {
 					}
 					
 					//down
+					
 					moveBlock = p.getGrid(i, j+1);
 					if(p.move(i, j, moveBlock)){
 						results.add(p.getGridCode());
