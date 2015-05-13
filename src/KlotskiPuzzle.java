@@ -105,6 +105,11 @@ public class KlotskiPuzzle {
 		return moves;
 	}
 	
+	public Block getBlock(String block){
+		if(!blocks.containsKey(block)) return null;
+		return blocks.get(block);
+	}
+	
 	public Boolean undo(){
 		if(grids.size() < 2) return false;
 		grids.pop();
@@ -194,8 +199,8 @@ public class KlotskiPuzzle {
 	}
 	
 	//returns move object with current position of block b
-	private Move getBlockPos(Block b){
-		if(blocks.containsKey(b.name)){
+	public Move getBlockPos(Block b){
+		if(b != null && blocks.containsKey(b.name)){
 			Move c = new Move(0,0,b);
 			for(int i=0;i<GRID_WIDTH;i++){
 				for(int j=0;j<GRID_HEIGHT;j++){

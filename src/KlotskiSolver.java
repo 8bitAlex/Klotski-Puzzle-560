@@ -104,32 +104,36 @@ public class KlotskiSolver {
 			for(int j=0;j<KlotskiPuzzle.GRID_HEIGHT;j++){
 				if(p.getGrid(i,j).equals(KlotskiPuzzle.EMPTY)){
 					String moveBlock = "";
+					Move blockPos = null;
 					
-					//up
+					//look up, check if you can move it down
 					moveBlock = p.getGrid(i, j-1);
-					if(p.move(i, j, moveBlock)){
+					blockPos = p.getBlockPos(p.getBlock(moveBlock));
+					if(blockPos != null && p.move(blockPos.x, blockPos.y+1,moveBlock)){
 						results.add(p.getGridCode());
 						p = new KlotskiPuzzle(gridCode);
 					}
 					
-					//left
+					//look left, check if you can move it right
 					moveBlock = p.getGrid(i-1, j);
-					if(p.move(i, j, moveBlock)){
+					blockPos = p.getBlockPos(p.getBlock(moveBlock));
+					if(blockPos != null && p.move(blockPos.x+1, blockPos.y,moveBlock)){
 						results.add(p.getGridCode());
 						p = new KlotskiPuzzle(gridCode);
 					}
 					
-					//right
+					//look right, check if you can move it left
 					moveBlock = p.getGrid(i+1, j);
-					if(p.move(i, j, moveBlock)){
+					blockPos = p.getBlockPos(p.getBlock(moveBlock));
+					if(blockPos != null && p.move(blockPos.x-1, blockPos.y,moveBlock)){
 						results.add(p.getGridCode());
 						p = new KlotskiPuzzle(gridCode);
 					}
 					
-					//down
-					
+					//look down, check if you can move it up
 					moveBlock = p.getGrid(i, j+1);
-					if(p.move(i, j, moveBlock)){
+					blockPos = p.getBlockPos(p.getBlock(moveBlock));
+					if(blockPos != null && p.move(blockPos.x, blockPos.y-1,moveBlock)){
 						results.add(p.getGridCode());
 						p = new KlotskiPuzzle(gridCode);
 					}
