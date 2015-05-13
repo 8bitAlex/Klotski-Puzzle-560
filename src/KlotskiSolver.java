@@ -33,15 +33,27 @@ public class KlotskiSolver {
 	public void solve(Boolean verbose){
 		Calendar cal = Calendar.getInstance();
     	long start = cal.getTimeInMillis();
-		if(verbose) System.out.println("Solving puzzle...");
+    	
+		System.out.println("Solving puzzle...");
+		
+		//compute solution
 		findValidPath(puzzle.getGridCode(),verbose);
+		
+		//calculate duration to solve
 		long end = cal.getTimeInMillis();
 		long duration = (end - start)/1000;
 		System.out.println("Duration: " + duration + "s");
+		
+		printSolution();
+		puzzle.printPuzzle();
 	}
 	
 	private void printSolution(){
-		
+		if(puzzle.isSolved()){
+			puzzle.printMoves();
+		} else {
+			System.out.println("The puzzle is not solved yet");
+		}
 	}
 	
 	//Root is the grids gridCode
@@ -58,7 +70,7 @@ public class KlotskiSolver {
 			if(isSolved(current)){
 				if(verbose) System.out.println("Solution found in " + moveCount + " tries!");
 				puzzle = new KlotskiPuzzle(current);
-				puzzle.printPuzzle();
+				//puzzle.printPuzzle();
 				break;
 			}
 			String[] nextGrid = findAllMoves(current, verbose);
@@ -68,30 +80,62 @@ public class KlotskiSolver {
 				pastGrid.add(g);
 			}
 			moveCount++;
-//			if((moveCount % 10000) == 0) {
-//				clearConsole();
-//				KlotskiPuzzle p = new KlotskiPuzzle(current);
-//				p.printPuzzle();
-//			};
 		}
 	}
 	
 	private String[] findAllMoves(String gridCode,Boolean verbose){
 		if(verbose) System.out.println("\tFinding all moves for " + gridCode);
-		String[] blocks = KlotskiPuzzle.BLOCK_NAMES;
+		//String[] blocks = KlotskiPuzzle.BLOCK_NAMES;
 		List<String> results = new ArrayList<String>();
-		KlotskiPuzzle p;
+		KlotskiPuzzle p = new KlotskiPuzzle(gridCode);
 		
-		for(String s: blocks){
-			for(int i=0; i<KlotskiPuzzle.GRID_WIDTH;i++){
-				for(int j=0;j<KlotskiPuzzle.GRID_HEIGHT;j++){
-					p = new KlotskiPuzzle(gridCode);
-					if(p.move(i, j, s)){
-						if(!pastGrid.contains(p.getGridCode())) results.add(p.getGridCode());
+		//Iterate through each column
+		for(int i=0; i<KlotskiPuzzle.GRID_WIDTH;i++){
+			for(int j=0;j<KlotskiPuzzle.GRID_HEIGHT;j++){
+				if(p.getGrid(i,j).equals(KlotskiPuzzle.EMPTY)){
+					String moveBlock = "";
+					
+					//up
+					moveBlock = p.getGrid(i, j-1);
+					if(p.move(i, j, moveBlock)){
+						results.add(p.getGridCode());
+						p = new KlotskiPuzzle(gridCode);
+					}
+					
+					//left
+					moveBlock = p.getGrid(i-1, j);
+					if(p.move(i, j, moveBlock)){
+						results.add(p.getGridCode());
+						p = new KlotskiPuzzle(gridCode);
+					}
+					
+					//right
+					moveBlock = p.getGrid(i+1, j);
+					if(p.move(i, j, moveBlock)){
+						results.add(p.getGridCode());
+						p = new KlotskiPuzzle(gridCode);
+					}
+					
+					//down
+					moveBlock = p.getGrid(i, j+1);
+					if(p.move(i, j, moveBlock)){
+						results.add(p.getGridCode());
+						p = new KlotskiPuzzle(gridCode);
 					}
 				}
 			}
 		}
+		
+//		for(String s: blocks){
+//			for(int i=0; i<KlotskiPuzzle.GRID_WIDTH;i++){
+//				for(int j=0;j<KlotskiPuzzle.GRID_HEIGHT;j++){
+//					p = new KlotskiPuzzle(gridCode);
+//					if(p.move(i, j, s)){
+//						if(!pastGrid.contains(p.getGridCode())) results.add(p.getGridCode());
+//					}
+//				}
+//			}
+//		}
 		
 		String[] resultsArray = new String[ results.size() ];
 		return results.toArray(resultsArray);
