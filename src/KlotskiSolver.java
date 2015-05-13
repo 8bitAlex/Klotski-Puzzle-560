@@ -18,9 +18,8 @@ import java.util.Set;
 
 public class KlotskiSolver {
 	
-	Set<String> pastGrid = new HashSet<String>();
 	KlotskiPuzzle puzzle;
-	int moveCount = 0;
+	Set<String> pastGrid = new HashSet<String>();
 	
 	public KlotskiSolver(KlotskiPuzzle puzzle){
 			pastGrid.add(puzzle.getGridCode());
@@ -49,54 +48,52 @@ public class KlotskiSolver {
 	private void findValidPath(String rootCode, Boolean verbose){
 		if(verbose) System.out.println("Finding optimal solution");
 		Queue<String> grids = new LinkedList<String>();
+		int moveCount = 0;
+		
 		grids.add(rootCode);
 		pastGrid.add(rootCode);
 		
 		while(!grids.isEmpty()){
 			String current = grids.remove();
 			if(isSolved(current)){
-				if(verbose) System.out.println("Solution found in " + moveCount + " moves!");
+				if(verbose) System.out.println("Solution found in " + moveCount + " tries!");
+				puzzle = new KlotskiPuzzle(current);
+				puzzle.printPuzzle();
 				break;
 			}
 			String[] nextGrid = findAllMoves(current, verbose);
 			for(String g : nextGrid){
-				if(!pastGrid.contains(g)){
-					if(verbose) System.out.println("Adding grid " + g + " to queue. " + moveCount);
-					grids.add(g);
-					pastGrid.add(g);
-				} else if(verbose){
-					System.out.println(g + " already exists");
-				}
+				if(verbose) System.out.println(moveCount + "\tAdding grid " + g + " to queue. ");
+				grids.add(g);
+				pastGrid.add(g);
 			}
 			moveCount++;
-			//System.out.println(moveCount);
-			//if(current.equals("AJJCAJJCBEEDBGHD0F0I")) System.out.println("FUCKED UP");
-			if((moveCount % 10000) == 0) {
-				clearConsole();
-				KlotskiPuzzle p = new KlotskiPuzzle(current);
-				p.printPuzzle();
-			};
+//			if((moveCount % 10000) == 0) {
+//				clearConsole();
+//				KlotskiPuzzle p = new KlotskiPuzzle(current);
+//				p.printPuzzle();
+//			};
 		}
 	}
 	
 	private String[] findAllMoves(String gridCode,Boolean verbose){
-		if(verbose) System.out.println("Finding all moves for " + gridCode);
+		if(verbose) System.out.println("\tFinding all moves for " + gridCode);
 		String[] blocks = KlotskiPuzzle.BLOCK_NAMES;
 		List<String> results = new ArrayList<String>();
+		KlotskiPuzzle p;
+		
 		for(String s: blocks){
 			for(int i=0; i<KlotskiPuzzle.GRID_WIDTH;i++){
 				for(int j=0;j<KlotskiPuzzle.GRID_HEIGHT;j++){
-					KlotskiPuzzle p = new KlotskiPuzzle(gridCode);
+					p = new KlotskiPuzzle(gridCode);
 					if(p.move(i, j, s)){
-						results.add(p.getGridCode());
+						if(!pastGrid.contains(p.getGridCode())) results.add(p.getGridCode());
 					}
 				}
 			}
 		}
 		
 		String[] resultsArray = new String[ results.size() ];
-		//return next move grid code
-		if(results == null) System.out.println("TEST2");
 		return results.toArray(resultsArray);
 	}
 	
