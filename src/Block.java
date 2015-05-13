@@ -5,6 +5,7 @@
  */
 public class Block {
 	String name;
+	int id;
 	int area;
 	int height;
 	int width;
@@ -14,11 +15,12 @@ public class Block {
 		SINGLE,DOUBLE_WIDE,DOUBLE_TALL,QUAD
 	}
 	
-	public Block(int h, int w, String n){
+	public Block(int i, int h, int w, String n){
 		this.name = n;
 		this.height = h;
 		this.width = w;
 		this.area = h * w;
+		this.id = i;
 	}
 	
 	@Override public String toString(){
