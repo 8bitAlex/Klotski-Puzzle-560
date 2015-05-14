@@ -19,10 +19,8 @@ import java.util.Set;
 public class KlotskiSolver {
 	
 	KlotskiPuzzle puzzle;
-	Set<String> pastGrid = new HashSet<String>();
 	
 	public KlotskiSolver(KlotskiPuzzle puzzle){
-			pastGrid.add(puzzle.getGridCode());
 			this.puzzle = puzzle;
 	}
 	
@@ -58,38 +56,36 @@ public class KlotskiSolver {
 	
 	//Root is the grids gridCode
 	private void findValidPath(String rootCode, Boolean verbose){
-		if(verbose) System.out.println("Finding optimal solution");
 		Queue<String> grids = new LinkedList<String>();
+		Set<String> pastGrid = new HashSet<String>();
 		int moveCount = 0;
 		
 		grids.add(rootCode);
 		pastGrid.add(rootCode);
+		TreeNode rootNode = new TreeNode(rootCode,null);
+		TreeNode currentNode = rootNode;
 		
 		while(!grids.isEmpty()){
 			String current = grids.remove();
 			
-//			KlotskiPuzzle z = new KlotskiPuzzle(current);
-//			z.printPuzzle();
+			//select node from tree of current
+			//See if current is in moves of currentNode else move up a level check all on level
+			currentNode = getNode(current,currentNode);
 			
 			if(isSolved(current)){
 				if(verbose) System.out.println("Solution found in " + moveCount + " tries!");
 				puzzle = new KlotskiPuzzle(current);
-				//puzzle.printPuzzle();
 				break;
 			}
 			String[] nextGrid = findAllMoves(current, verbose);
 			for(String g : nextGrid){
 				if(pastGrid.contains(g)) continue;
 				if(verbose) System.out.println(moveCount + "\tAdding grid " + g + " to queue. ");
+				//add nodes to current, set each node parent to current node
 				grids.add(g);
 				pastGrid.add(g);
 			}
 			moveCount++;
-//			if(moveCount % 10000 == 0){
-//				KlotskiPuzzle z = new KlotskiPuzzle(current);
-//				z.printPuzzle();
-//			}
-			
 		}
 	}
 	
@@ -163,6 +159,11 @@ public class KlotskiSolver {
 	
 	private void clearConsole(){
 		for(int i=0; i<1000; i++) System.out.println("\b") ;
+	}
+	
+	private TreeNode getNode(String code, TreeNode node){
+		
+		return null;
 	}
 
 }
