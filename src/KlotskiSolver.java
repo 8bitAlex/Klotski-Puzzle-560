@@ -44,8 +44,9 @@ public class KlotskiSolver {
 		//calculate duration to solve
 		long end = Calendar.getInstance().getTimeInMillis();
 		long duration = (end - start)/1000;
+		long durationExt = (end - start)%1000;
 		
-		System.out.println("Duration: " + duration + "s");
+		System.out.println("Duration: " + duration + "." + durationExt + "s");
 	}
 	
 	//Root is the grids gridCode
