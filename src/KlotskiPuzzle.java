@@ -16,9 +16,10 @@ public class KlotskiPuzzle {
 	static final int GRID_HEIGHT = 4;
 	static final String[] BLOCK_NAMES = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J"};
 	
-	static final String DEFAULT_CONFIG = "AJJCAJJCBEEDBGHDF00I";	//116 moves to win
+	//static final String DEFAULT_CONFIG = "AJJCAJJCBEEDBGHDF00I";	//116 moves to win
 	//static final String DEFAULT_CONFIG = "HEEGA0C0AFCIBDJJBDJJ";	//7 moves to win
 	//static final String DEFAULT_CONFIG = "0B0CABDCAHDFJJEEJJIG";	//9 moves to win
+	static final String DEFAULT_CONFIG = "0AB0DABCDJJCIJJFHEEG";	//25 moves to win
 	
 	String[][] grid = new String[GRID_WIDTH][GRID_HEIGHT];
 	Map<String, Block> blocks = new Hashtable<String, Block>();
