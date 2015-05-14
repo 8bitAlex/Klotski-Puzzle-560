@@ -2,10 +2,13 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Hashtable;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Queue;
 import java.util.Set;
+import java.util.Stack;
 
 /**
  * @author Alex Salerno
@@ -19,6 +22,7 @@ import java.util.Set;
 public class KlotskiSolver {
 	
 	KlotskiPuzzle puzzle;
+	Map<String, String> tree = new Hashtable<String, String>();
 	
 	public KlotskiSolver(KlotskiPuzzle puzzle){
 			this.puzzle = puzzle;
@@ -34,47 +38,32 @@ public class KlotskiSolver {
 		System.out.println("Solving puzzle...");
 		
 		//compute solution
-		findValidPath(puzzle.getGridCode(),verbose);
+		String solution = findValidPath(puzzle.getGridCode(),verbose);
+		printSolution(solution);
 		
 		//calculate duration to solve
 		long end = Calendar.getInstance().getTimeInMillis();
 		long duration = (end - start)/1000;
 		
 		System.out.println("Duration: " + duration + "s");
-		
-		printSolution();
-		puzzle.printPuzzle();
-	}
-	
-	private void printSolution(){
-		if(puzzle.isSolved()){
-			puzzle.printMoves();
-		} else {
-			System.out.println("The puzzle is not solved yet");
-		}
 	}
 	
 	//Root is the grids gridCode
-	private void findValidPath(String rootCode, Boolean verbose){
+	private String findValidPath(String rootCode, Boolean verbose){
 		Queue<String> grids = new LinkedList<String>();
 		Set<String> pastGrid = new HashSet<String>();
 		int moveCount = 0;
+		String current = "";
 		
 		grids.add(rootCode);
 		pastGrid.add(rootCode);
-		TreeNode rootNode = new TreeNode(rootCode,null);
-		TreeNode currentNode = rootNode;
+		tree.put(rootCode, "");
 		
 		while(!grids.isEmpty()){
-			String current = grids.remove();
-			
-			//select node from tree of current
-			//See if current is in moves of currentNode else move up a level check all on level
-			currentNode = getNode(current,currentNode);
+			current = grids.remove();
 			
 			if(isSolved(current)){
 				if(verbose) System.out.println("Solution found in " + moveCount + " tries!");
-				puzzle = new KlotskiPuzzle(current);
 				break;
 			}
 			String[] nextGrid = findAllMoves(current, verbose);
@@ -84,9 +73,11 @@ public class KlotskiSolver {
 				//add nodes to current, set each node parent to current node
 				grids.add(g);
 				pastGrid.add(g);
+				tree.put(g,current);
 			}
 			moveCount++;
 		}
+		return current;
 	}
 	
 	private String[] findAllMoves(String gridCode,Boolean verbose){
@@ -137,17 +128,6 @@ public class KlotskiSolver {
 			}
 		}
 		
-//		for(String s: blocks){
-//			for(int i=0; i<KlotskiPuzzle.GRID_WIDTH;i++){
-//				for(int j=0;j<KlotskiPuzzle.GRID_HEIGHT;j++){
-//					p = new KlotskiPuzzle(gridCode);
-//					if(p.move(i, j, s)){
-//						if(!pastGrid.contains(p.getGridCode())) results.add(p.getGridCode());
-//					}
-//				}
-//			}
-//		}
-		
 		String[] resultsArray = new String[ results.size() ];
 		return results.toArray(resultsArray);
 	}
@@ -157,13 +137,23 @@ public class KlotskiSolver {
 		return p.isSolved();
 	}
 	
-	private void clearConsole(){
-		for(int i=0; i<1000; i++) System.out.println("\b") ;
-	}
-	
-	private TreeNode getNode(String code, TreeNode node){
+	private void printSolution(String solution){
+		Stack<String> reverse = new Stack<String>();
+		KlotskiPuzzle puzzle;
+		int moves = 0;
 		
-		return null;
+		reverse.push(solution);
+		String current = tree.get(solution);
+		
+		while(!current.isEmpty()){
+			reverse.push(current);
+			current = tree.get(current);
+		}
+		while(!reverse.isEmpty()){
+			System.out.println("Move:" + moves++);
+			puzzle = new KlotskiPuzzle(reverse.pop());
+			puzzle.printPuzzle();
+		}
+		System.out.println("Solution in " + (moves-1) + " moves!");
 	}
-
 }
