@@ -31,8 +31,7 @@ public class KlotskiSolver {
 	}
 	
 	public void solve(Boolean verbose){
-		Calendar cal = Calendar.getInstance();
-    	long start = cal.getTimeInMillis();
+    	long start = Calendar.getInstance().getTimeInMillis();
     	
 		System.out.println("Solving puzzle...");
 		
@@ -40,8 +39,9 @@ public class KlotskiSolver {
 		findValidPath(puzzle.getGridCode(),verbose);
 		
 		//calculate duration to solve
-		long end = cal.getTimeInMillis();
+		long end = Calendar.getInstance().getTimeInMillis();
 		long duration = (end - start)/1000;
+		
 		System.out.println("Duration: " + duration + "s");
 		
 		printSolution();
